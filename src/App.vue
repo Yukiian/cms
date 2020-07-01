@@ -5,11 +5,7 @@
 </template>
 
 <script>
-export default {
-  mounted() {
-    console.log(this.$router);
-  }
-};
+export default {};
 </script>
 
 <style lang="less">
