@@ -63,9 +63,14 @@ export default {
     return {};
   },
   methods: {
+    /**
+     * children：item.children (子路由)
+     * parent：item  (父路由)
+     * 
+     */
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
-        if (item.hidden) {
+        if (item.hidden) { //如果子节点有隐藏就return false
           return false;
         } else {
           // Temp set(will be used if only has one showing child)
@@ -74,16 +79,18 @@ export default {
         }
       });
       // When there is only one child router, the child router is displayed by default
-      if (showingChildren.length === 1) {
+      if (showingChildren.length === 1) { //当只有一个子路由器时，默认情况下显示子路由器
         return true;
       }
 
       // Show parent if there are no child router to display
-      if (showingChildren.length === 0) {
+      if (showingChildren.length === 0) {  //如果没有子路由显示就展示父路由
         this.onlyOneChild = { ...parent, path: "", noShowingChildren: true };
-        return true;
+        //path置位空从basepath上取值，resolvePath会将path进行合并
+       return true;
       }
 
+      //其他情况就返回false
       return false;
     },
     resolvePath(routePath) {
