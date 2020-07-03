@@ -4,9 +4,10 @@
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
-    <div class="main-container">
+    <div class="main-container" :class="{hasTagsView:needTagsView}">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
+        <tags-view v-if="needTagsView" />
       </div>
       <main-content />
     </div>
@@ -14,27 +15,26 @@
 </template>
 
 <script>
-import { Navbar, MainContent, Sidebar } from "./components";
+import { Navbar, MainContent, Sidebar, TagsView } from "./components";
 import ResizeMixin from "./mixin/ResizeHandler";
+import { mapState } from "vuex";
 
 export default {
   name: "Layout",
   components: {
     Navbar,
     MainContent,
-    Sidebar
+    Sidebar,
+    TagsView
   },
   mixins: [ResizeMixin],
   computed: {
-    sidebar() {
-      return this.$store.state.app.sidebar;
-    },
-    device() {
-      return this.$store.state.app.device;
-    },
-    fixedHeader() {
-      return this.$store.state.settings.fixedHeader;
-    },
+    ...mapState({
+      sidebar: state => state.app.sidebar,
+      device: state => state.app.device,
+      needTagsView: state => state.settings.tagsView,
+      fixedHeader: state => state.settings.fixedHeader
+    }),
     classObj() {
       return {
         hideSidebar: !this.sidebar.opened,
