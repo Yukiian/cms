@@ -146,15 +146,20 @@ export default {
         });
       });
     },
-    closeSelectedTag(view) {
+    async closeSelectedTag(view) {
       //关闭tag，如果当前的路由是active的就跳到最后一个
-      this.$store
-        .dispatch("tagsView/delView", view)
-        .then(({ visitedViews }) => {
-          if (this.isActive(view)) {
+      // this.$store
+      //   .dispatch("tagsView/delView", view)
+      //   .then(({ visitedViews }) => {
+      //     if (this.isActive(view)) {
+      //       this.toLastView(visitedViews, view);
+      //     }
+      //   });
+      
+      let { visitedViews } = await this.$store.dispatch("tagsView/delView", view)
+       if (this.isActive(view)) {
             this.toLastView(visitedViews, view);
-          }
-        });
+        }
     },
     closeOthersTags() {
       //删除除选中标签外其他不是affix附着的tag

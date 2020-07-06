@@ -15,6 +15,7 @@ const mutations = {
   ADD_CACHED_VIEW: (state, view) => {
     if (state.cachedViews.includes(view.name)) return
     if (!view.meta.noCache) {
+      //此时路由name与页面中name一致才能保证cache
       state.cachedViews.push(view.name)
     }
   },
